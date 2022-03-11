@@ -95,6 +95,7 @@ int main(void)
   MX_LWIP_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+  snake_hw_init();
   tcp_server_init();
   /* USER CODE END 2 */
 
