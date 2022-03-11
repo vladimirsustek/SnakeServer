@@ -44,7 +44,7 @@
 #define SNAKE_MOVE_CRASH	(uint16_t)(1)
 #define SNAKE_WON			(uint16_t)(2)
 
-#define FOOD_MAX_ITER		(uint16_t)(100)
+#define FOOD_MAX_ITER		(uint16_t)(10)
 
 #define GENERAL_ERROR		(uint16_t)(-1)
 #define INVALID_COORDS		(uint16_t)(-1)
@@ -67,6 +67,7 @@ typedef struct snake_tag
 	coord_t body[SNAKE_MAX_LNG];
 	uint16_t length;
 	coord_t ghost;
+	uint8_t initial;
 	snake_state_e state;
 } snake_t;
 
@@ -83,6 +84,7 @@ void platform_drawFood(uint16_t x, uint16_t y);
 void platform_eraseFood(uint16_t x, uint16_t y);
 
 void platform_init(void);
+void platform_init_randomizer(void);
 void platform_printXY(uint16_t x, uint16_t y, char symbol);
 uint16_t platform_randomize(void);
 void platform_sleep(uint16_t ms);

@@ -32,7 +32,7 @@ static void platform_control_init(void)
 {
 	HAL_UART_Receive_IT(&huart3, (uint8_t*)&sUartChar, 1);
 }
-static void platform_init_randomizer(void)
+void platform_init_randomizer(void)
 {
 	/* This randomizer is based on ADC noise
 	 * as a LFSR seed number */

@@ -20,6 +20,7 @@
 #include "main.h"
 #include "adc.h"
 #include "lwip.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -40,6 +41,19 @@ typedef void fn_t(void);
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+
+#ifdef DEBUG_EXECUTION_TIME
+#define STOPWATCH_INIT()	(HAL_TIM_Base_Start(&htim1))
+#define STOPWATCH_START() 		(htim1.Instance->CNT = 0)
+#define STOPWATCH_STOP()  		(htim1.Instance->CNT)
+#define STOPWATCH_PRINT(idx) 	(printf("%d:%lu\n",(idx), STOPWATCH_STOP()))
+#else
+#define STOPWATCH_INIT()	({})
+#define STOPWATCH_START() 	({})
+#define STOPWATCH_STOP() 	({})
+#define STOPWATCH_PRINT(idx)({(idx);})
+#endif
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -57,6 +71,7 @@ typedef void fn_t(void);
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void VS_DelayWithPolling(uint32_t Delay, fn_t func);
+void VS_SnakeGameLoop(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -94,38 +109,28 @@ int main(void)
   MX_USART3_UART_Init();
   MX_LWIP_Init();
   MX_ADC1_Init();
+  MX_TIM1_Init();
+
   /* USER CODE BEGIN 2 */
+
+  /*Initialize dependencies for snake game (TFT, Randomizer)*/
   snake_hw_init();
+
+  /* Start TCP server on the address 192.168.100.1:8000 */
   tcp_server_init();
+
+  /* Debug time execution timer */
+  STOPWATCH_INIT();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  MX_LWIP_Process();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  snake_t snake = { 0 };
-	  food_t food = { 0 };
-	  uint32_t gPrgCycle = 0;
-	  snake_init(&snake);
-
-	  for(;;)
-	  {
-		snake_control(&snake);
-		snake_move(&snake);
-
-		if (snake.state != PLAYING) break;
-
-		snake_haseaten(&snake, &food);
-		snake_display(&snake);
-		snake_place_food(&snake, &food, gPrgCycle);
-
-		gPrgCycle++;
-		VS_DelayWithPolling(150, MX_LWIP_Process);
-	  }
+	  VS_SnakeGameLoop();
   }
   /* USER CODE END 3 */
 }
@@ -206,6 +211,56 @@ void VS_DelayWithPolling(uint32_t Delay, fn_t func)
   {
 	  func();
   }
+}
+
+/**
+  * @brief  This function is the implementation of Snake Game (infinite loop game)
+  * @param  None
+  * @retval None
+  * @detail Game is played until crash happens
+  */
+void VS_SnakeGameLoop(void)
+{
+	  /*Snake (re)initiliazation */
+	  snake_t snake = { 0 };
+	  food_t food = { 0 };
+	  uint32_t gPrgCycle = 0;
+	  snake_init(&snake);
+
+		STOPWATCH_START();
+		STOPWATCH_PRINT(0);
+
+	  for(;;)
+	  {
+
+		STOPWATCH_START();
+		snake_control(&snake);
+		STOPWATCH_PRINT(1);
+
+		STOPWATCH_START();
+		snake_move(&snake);
+		STOPWATCH_PRINT(2);
+
+		if (snake.state != PLAYING) break;
+
+		STOPWATCH_START();
+		snake_haseaten(&snake, &food);
+		STOPWATCH_PRINT(3);
+
+		STOPWATCH_START();
+		snake_display(&snake);
+		STOPWATCH_PRINT(4);
+
+		STOPWATCH_START();
+		snake_place_food(&snake, &food, gPrgCycle);
+		STOPWATCH_PRINT(5);
+
+		gPrgCycle++;
+
+		STOPWATCH_START();
+		VS_DelayWithPolling(150, MX_LWIP_Process);
+		STOPWATCH_PRINT(6);
+	  }
 }
 /* USER CODE END 4 */
 

@@ -43,7 +43,7 @@ void snake_init(snake_t* snake)
 	snake->state = PLAYING;
 	snake->ghost.x = INVALID_COORDS;
 	snake->ghost.y = INVALID_COORDS;
-
+	snake->initial = 1;
 	memset(&snake->body[0], 0, SNAKE_MAX_LNG*sizeof(coord_t));
 
 	for (int idx = 0; idx < SNAKE_INIT_LNG; idx++)
@@ -62,10 +62,20 @@ void snake_display(snake_t* snake)
 	{
 		platform_eraseCell(snake->ghost.x, snake->ghost.y);
 	}
-	for (int idx = 0; idx < snake->length; idx++)
+
+	if(snake->initial)
 	{
-		platform_drawCell(snake->body[idx].x, snake->body[idx].y);
+		snake ->initial = 0;
+		for (int idx = 0; idx < snake->length; idx++)
+		{
+			platform_drawCell(snake->body[idx].x, snake->body[idx].y);
+		}
 	}
+	else
+	{
+		platform_drawCell(snake->body[snake->length - 1].x, snake->body[snake->length - 1].y);
+	}
+
 }
 
 
@@ -187,9 +197,12 @@ uint16_t generate_food(snake_t* snake, food_t *food)
 				break;
 			}
 		}
+
+		iter++;
+
 		if (iter > FOOD_MAX_ITER)
 		{
-			break;
+			platform_init_randomizer();
 		}
 
 	} while (isInvalid);
