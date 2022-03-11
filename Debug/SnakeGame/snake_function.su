@@ -1,0 +1,10 @@
+snake_function.c:28:6:snake_control	16	static
+snake_function.c:34:6:snake_hw_init	8	static
+snake_function.c:39:6:snake_init	24	static
+snake_function.c:59:6:snake_display	24	static
+snake_function.c:72:6:snake_diplay_borders	4	static
+snake_function.c:76:6:snake_move	32	static
+snake_function.c:171:10:generate_food	32	static
+snake_function.c:207:6:snake_place_food	24	static
+snake_function.c:231:6:snake_haseaten	416	static
+snake_function.c:253:6:snake_inform	16	static

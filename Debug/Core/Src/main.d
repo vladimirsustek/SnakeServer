@@ -19,6 +19,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h \
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc.h \
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash_ex.h \
@@ -28,7 +30,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h \
- ../LWIP/App/lwip.h \
+ ../Core/Inc/adc.h ../Core/Inc/main.h ../LWIP/App/lwip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/opt.h \
  ../LWIP/Target/lwipopts.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
@@ -59,8 +61,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/LwIP/src/include/netif/ethernet.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/dhcp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/timeouts.h \
- ../LWIP/Target/ethernetif.h ../Core/Inc/usart.h ../Core/Inc/main.h \
- ../Core/Inc/gpio.h \
+ ../LWIP/Target/ethernetif.h ../Core/Inc/usart.h ../Core/Inc/gpio.h \
  C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/ServerTCP/server_tcp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/tcp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/tcpbase.h \
@@ -68,7 +69,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/tft.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/fonts.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_function.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h
 
 ../Core/Inc/main.h:
 
@@ -112,6 +118,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h:
 
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc.h:
+
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_adc_ex.h:
+
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h:
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h:
@@ -129,6 +139,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h:
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h:
+
+../Core/Inc/adc.h:
+
+../Core/Inc/main.h:
 
 ../LWIP/App/lwip.h:
 
@@ -196,8 +210,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Core/Inc/usart.h:
 
-../Core/Inc/main.h:
-
 ../Core/Inc/gpio.h:
 
 C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/ServerTCP/server_tcp.h:
@@ -215,3 +227,13 @@ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/ServerTCP/server_tcp.h:
 ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h:
 
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
+
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/tft.h:
+
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/fonts.h:
+
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_function.h:
+
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h:
+
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h:

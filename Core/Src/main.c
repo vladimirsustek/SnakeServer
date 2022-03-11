@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "lwip.h"
 #include "usart.h"
 #include "gpio.h"
@@ -27,6 +28,9 @@
 #include <stdio.h>
 
 #include "server_tcp.h"
+
+#include "tft.h"
+#include "snake_function.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,6 +93,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART3_UART_Init();
   MX_LWIP_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   tcp_server_init();
   /* USER CODE END 2 */
@@ -101,6 +106,24 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  snake_t snake = { 0 };
+	  food_t food = { 0 };
+	  uint32_t gPrgCycle = 0;
+	  snake_init(&snake);
+
+	  for(;;)
+	  {
+		snake_control(&snake);
+		snake_move(&snake);
+
+		if (snake.state != PLAYING) break;
+
+		snake_haseaten(&snake, &food);
+		snake_display(&snake);
+		snake_place_food(&snake, &food, gPrgCycle);
+
+		MX_LWIP_Process();
+	  }
   }
   /* USER CODE END 3 */
 }
