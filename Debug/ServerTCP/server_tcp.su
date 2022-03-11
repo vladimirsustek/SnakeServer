@@ -5,4 +5,4 @@ server_tcp.c:217:13:tcp_server_error	24	static
 server_tcp.c:237:14:tcp_server_poll	24	static
 server_tcp.c:276:14:tcp_server_sent	32	static
 server_tcp.c:305:13:tcp_server_send	32	static
-server_tcp.c:367:13:tcp_server_connection_close	16	static
+server_tcp.c:370:13:tcp_server_connection_close	16	static

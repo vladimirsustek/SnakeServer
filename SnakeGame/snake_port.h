@@ -91,4 +91,6 @@ void platform_fatal(void);
 void platform_get_control(snake_t* snake);
 void platform_refresh_hw(void);
 
+extern char extKeyBoardButton;
+
 #endif /* SNAKE_PORT_H_ */

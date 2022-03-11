@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 #include "tcp.h"
-
+#include "snake_port.h"
 
 /*  protocol states */
 enum tcp_server_states

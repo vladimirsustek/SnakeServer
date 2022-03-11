@@ -327,7 +327,10 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
       char *pReceived = (char*)mem_malloc((size_t)(plen + 1));
       memcpy(pReceived, ptr->payload, plen);
       memset(pReceived + plen, 0, 1);
+
       printf("%s\n", pReceived);
+      extKeyBoardButton = pReceived[0];
+
       mem_free(pReceived);
 
       /* continue with next pbuf in chain (if any) */

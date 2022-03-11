@@ -35,7 +35,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+typedef void fn_t(void);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -56,7 +56,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void VS_DelayWithPolling(uint32_t Delay, fn_t func);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -123,7 +123,8 @@ int main(void)
 		snake_display(&snake);
 		snake_place_food(&snake, &food, gPrgCycle);
 
-		MX_LWIP_Process();
+		gPrgCycle++;
+		VS_DelayWithPolling(150, MX_LWIP_Process);
 	  }
   }
   /* USER CODE END 3 */
@@ -188,6 +189,23 @@ int _write(int file, char *ptr, int len)
 {
 	HAL_UART_Transmit(&huart3, (uint8_t*)ptr, len, HAL_MAX_DELAY);
 	return len;
+}
+
+void VS_DelayWithPolling(uint32_t Delay, fn_t func)
+{
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t wait = Delay;
+
+  /* Add a freq to guarantee minimum wait */
+  if (wait < HAL_MAX_DELAY)
+  {
+    wait += (uint32_t)(uwTickFreq);
+  }
+
+  while ((HAL_GetTick() - tickstart) < wait)
+  {
+	  func();
+  }
 }
 /* USER CODE END 4 */
 

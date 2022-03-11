@@ -70,11 +70,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/icmp.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h \
  C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/tft.h \
  C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/fonts.h \
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h \
  C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_function.h \
- C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h \
- C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h
+ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h
 
 ../Core/Inc/main.h:
 
@@ -228,12 +229,14 @@ C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/ServerTCP/server_tcp.h:
 
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/icmp.h:
 
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h:
+
 C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/tft.h:
 
 C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/fonts.h:
 
+C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h:
+
 C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_function.h:
 
 C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/SnakeGame/snake_port.h:
-
-C:/Users/42077/STM32CubeIDE/workspace_1.8.0/SnakeServer/TFT/functions.h:
