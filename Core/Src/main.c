@@ -90,7 +90,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
-  tcp_echoserver_init();
+  tcp_server_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -14,8 +14,8 @@
 #include "tcp.h"
 
 
-/* ECHO protocol states */
-enum tcp_echoserver_states
+/*  protocol states */
+enum tcp_server_states
 {
   ES_NONE = 0,
   ES_ACCEPTED,
@@ -25,13 +25,13 @@ enum tcp_echoserver_states
 
 /* structure for maintaing connection infos to be passed as argument
    to LwIP callbacks*/
-struct tcp_echoserver_struct
+struct tcp_server_struct
 {
   u8_t state;             /* current connection state */
   struct tcp_pcb *pcb;    /* pointer on the current tcp_pcb */
   struct pbuf *p;         /* pointer on the received/to be transmitted pbuf */
 };
 
-void tcp_echoserver_init(void);
+void tcp_server_init(void);
 
 #endif /* SERVER_TCP_H_ */

@@ -1,8 +1,8 @@
-server_tcp.c:25:6:tcp_echoserver_init	16	static
-server_tcp.c:68:14:tcp_echoserver_accept	32	static
-server_tcp.c:118:14:tcp_echoserver_recv	40	static
-server_tcp.c:217:13:tcp_echoserver_error	24	static
-server_tcp.c:237:14:tcp_echoserver_poll	24	static
-server_tcp.c:276:14:tcp_echoserver_sent	32	static
-server_tcp.c:305:13:tcp_echoserver_send	32	static
-server_tcp.c:367:13:tcp_echoserver_connection_close	16	static
+server_tcp.c:25:6:tcp_server_init	16	static
+server_tcp.c:68:14:tcp_server_accept	32	static
+server_tcp.c:118:14:tcp_server_recv	40	static
+server_tcp.c:217:13:tcp_server_error	24	static
+server_tcp.c:237:14:tcp_server_poll	24	static
+server_tcp.c:276:14:tcp_server_sent	32	static
+server_tcp.c:305:13:tcp_server_send	32	static
+server_tcp.c:367:13:tcp_server_connection_close	16	static

@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00026c4d  00000000  00000000  0009ed15  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0010bbac  00000000  00000000  000c5962  2**0
+ 18 .debug_str    0010bb80  00000000  00000000  000c5962  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  001d150e  2**0
+ 19 .comment      00000053  00000000  00000000  001d14e2  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00005a70  00000000  00000000  001d1564  2**2
+ 20 .debug_frame  00005a70  00000000  00000000  001d1538  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -585,8 +585,8 @@ int main(void)
   MX_LWIP_Init();
  80006ec:	f004 f932 	bl	8004954 <MX_LWIP_Init>
   /* USER CODE BEGIN 2 */
-  tcp_echoserver_init();
- 80006f0:	f00f f968 	bl	800f9c4 <tcp_echoserver_init>
+  tcp_server_init();
+ 80006f0:	f00f f968 	bl	800f9c4 <tcp_server_init>
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -41465,43 +41465,43 @@ pbuf_header_failed:
  800f9bc:	080138fc 	.word	0x080138fc
  800f9c0:	08013930 	.word	0x08013930
 
-0800f9c4 <tcp_echoserver_init>:
-  * @brief  Initializes the tcp echo server
+0800f9c4 <tcp_server_init>:
+  * @brief  Initializes the tcp  server
   * @param  None
   * @retval None
   */
-void tcp_echoserver_init(void)
+void tcp_server_init(void)
 {
  800f9c4:	b580      	push	{r7, lr}
  800f9c6:	b082      	sub	sp, #8
  800f9c8:	af00      	add	r7, sp, #0
   /* create new tcp pcb */
-  tcp_echoserver_pcb = tcp_new();
+  tcp_server_pcb = tcp_new();
  800f9ca:	f7f8 fd91 	bl	80084f0 <tcp_new>
  800f9ce:	4603      	mov	r3, r0
- 800f9d0:	4a19      	ldr	r2, [pc, #100]	; (800fa38 <tcp_echoserver_init+0x74>)
+ 800f9d0:	4a19      	ldr	r2, [pc, #100]	; (800fa38 <tcp_server_init+0x74>)
  800f9d2:	6013      	str	r3, [r2, #0]
 
-  if (tcp_echoserver_pcb != NULL)
- 800f9d4:	4b18      	ldr	r3, [pc, #96]	; (800fa38 <tcp_echoserver_init+0x74>)
+  if (tcp_server_pcb != NULL)
+ 800f9d4:	4b18      	ldr	r3, [pc, #96]	; (800fa38 <tcp_server_init+0x74>)
  800f9d6:	681b      	ldr	r3, [r3, #0]
  800f9d8:	2b00      	cmp	r3, #0
- 800f9da:	d025      	beq.n	800fa28 <tcp_echoserver_init+0x64>
+ 800f9da:	d025      	beq.n	800fa28 <tcp_server_init+0x64>
   {
     err_t err;
     ip4_addr_t ipAddress;
     IP4_ADDR(&ipAddress, 192, 168, 100, 1);
- 800f9dc:	4b17      	ldr	r3, [pc, #92]	; (800fa3c <tcp_echoserver_init+0x78>)
+ 800f9dc:	4b17      	ldr	r3, [pc, #92]	; (800fa3c <tcp_server_init+0x78>)
  800f9de:	603b      	str	r3, [r7, #0]
     uint16_t port = 8000;
  800f9e0:	f44f 53fa 	mov.w	r3, #8000	; 0x1f40
  800f9e4:	80fb      	strh	r3, [r7, #6]
 
-    /* bind echo_pcb to port 7 (ECHO protocol) */
-    //err = tcp_bind(tcp_echoserver_pcb, IP_ADDR_ANY, 7);
+    /* bind _pcb to port 7 ( protocol) */
+    //err = tcp_bind(tcp_server_pcb, IP_ADDR_ANY, 7);
 
-    err = tcp_bind(tcp_echoserver_pcb, &ipAddress, port);
- 800f9e6:	4b14      	ldr	r3, [pc, #80]	; (800fa38 <tcp_echoserver_init+0x74>)
+    err = tcp_bind(tcp_server_pcb, &ipAddress, port);
+ 800f9e6:	4b14      	ldr	r3, [pc, #80]	; (800fa38 <tcp_server_init+0x74>)
  800f9e8:	681b      	ldr	r3, [r3, #0]
  800f9ea:	88fa      	ldrh	r2, [r7, #6]
  800f9ec:	4639      	mov	r1, r7
@@ -41513,24 +41513,24 @@ void tcp_echoserver_init(void)
     if (err == ERR_OK)
  800f9f8:	f997 3005 	ldrsb.w	r3, [r7, #5]
  800f9fc:	2b00      	cmp	r3, #0
- 800f9fe:	d10f      	bne.n	800fa20 <tcp_echoserver_init+0x5c>
+ 800f9fe:	d10f      	bne.n	800fa20 <tcp_server_init+0x5c>
     {
-      /* start tcp listening for echo_pcb */
-      tcp_echoserver_pcb = tcp_listen(tcp_echoserver_pcb);
- 800fa00:	4b0d      	ldr	r3, [pc, #52]	; (800fa38 <tcp_echoserver_init+0x74>)
+      /* start tcp listening for _pcb */
+      tcp_server_pcb = tcp_listen(tcp_server_pcb);
+ 800fa00:	4b0d      	ldr	r3, [pc, #52]	; (800fa38 <tcp_server_init+0x74>)
  800fa02:	681b      	ldr	r3, [r3, #0]
  800fa04:	21ff      	movs	r1, #255	; 0xff
  800fa06:	4618      	mov	r0, r3
  800fa08:	f7f7 fd86 	bl	8007518 <tcp_listen_with_backlog>
  800fa0c:	4603      	mov	r3, r0
- 800fa0e:	4a0a      	ldr	r2, [pc, #40]	; (800fa38 <tcp_echoserver_init+0x74>)
+ 800fa0e:	4a0a      	ldr	r2, [pc, #40]	; (800fa38 <tcp_server_init+0x74>)
  800fa10:	6013      	str	r3, [r2, #0]
 
       /* initialize LwIP tcp_accept callback function */
-      tcp_accept(tcp_echoserver_pcb, tcp_echoserver_accept);
- 800fa12:	4b09      	ldr	r3, [pc, #36]	; (800fa38 <tcp_echoserver_init+0x74>)
+      tcp_accept(tcp_server_pcb, tcp_server_accept);
+ 800fa12:	4b09      	ldr	r3, [pc, #36]	; (800fa38 <tcp_server_init+0x74>)
  800fa14:	681b      	ldr	r3, [r3, #0]
- 800fa16:	490a      	ldr	r1, [pc, #40]	; (800fa40 <tcp_echoserver_init+0x7c>)
+ 800fa16:	490a      	ldr	r1, [pc, #40]	; (800fa40 <tcp_server_init+0x7c>)
  800fa18:	4618      	mov	r0, r3
  800fa1a:	f7f8 fde9 	bl	80085f0 <tcp_accept>
   }
@@ -41539,14 +41539,14 @@ void tcp_echoserver_init(void)
     printf("Can not create new pcb\n");
   }
 }
- 800fa1e:	e006      	b.n	800fa2e <tcp_echoserver_init+0x6a>
+ 800fa1e:	e006      	b.n	800fa2e <tcp_server_init+0x6a>
       printf("Can not bind pcb\n");
- 800fa20:	4808      	ldr	r0, [pc, #32]	; (800fa44 <tcp_echoserver_init+0x80>)
+ 800fa20:	4808      	ldr	r0, [pc, #32]	; (800fa44 <tcp_server_init+0x80>)
  800fa22:	f000 fa93 	bl	800ff4c <puts>
 }
- 800fa26:	e002      	b.n	800fa2e <tcp_echoserver_init+0x6a>
+ 800fa26:	e002      	b.n	800fa2e <tcp_server_init+0x6a>
     printf("Can not create new pcb\n");
- 800fa28:	4807      	ldr	r0, [pc, #28]	; (800fa48 <tcp_echoserver_init+0x84>)
+ 800fa28:	4807      	ldr	r0, [pc, #28]	; (800fa48 <tcp_server_init+0x84>)
  800fa2a:	f000 fa8f 	bl	800ff4c <puts>
 }
  800fa2e:	bf00      	nop
@@ -41560,12 +41560,12 @@ void tcp_echoserver_init(void)
  800fa44:	08013958 	.word	0x08013958
  800fa48:	0801396c 	.word	0x0801396c
 
-0800fa4c <tcp_echoserver_accept>:
+0800fa4c <tcp_server_accept>:
   * @param  newpcb: pointer on tcp_pcb struct for the newly created tcp connection
   * @param  err: not used
   * @retval err_t: error status
   */
-static err_t tcp_echoserver_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
+static err_t tcp_server_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
 {
  800fa4c:	b580      	push	{r7, lr}
  800fa4e:	b086      	sub	sp, #24
@@ -41585,14 +41585,14 @@ static err_t tcp_echoserver_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
  800fa5e:	f7f8 fb55 	bl	800810c <tcp_setprio>
 
   /* allocate structure es to maintain tcp connection informations */
-  es = (struct tcp_echoserver_struct *)mem_malloc(sizeof(struct tcp_echoserver_struct));
+  es = (struct tcp_server_struct *)mem_malloc(sizeof(struct tcp_server_struct));
  800fa62:	200c      	movs	r0, #12
  800fa64:	f7f5 ff30 	bl	80058c8 <mem_malloc>
  800fa68:	6138      	str	r0, [r7, #16]
   if (es != NULL)
  800fa6a:	693b      	ldr	r3, [r7, #16]
  800fa6c:	2b00      	cmp	r3, #0
- 800fa6e:	d01c      	beq.n	800faaa <tcp_echoserver_accept+0x5e>
+ 800fa6e:	d01c      	beq.n	800faaa <tcp_server_accept+0x5e>
   {
     es->state = ES_ACCEPTED;
  800fa70:	693b      	ldr	r3, [r7, #16]
@@ -41614,28 +41614,28 @@ static err_t tcp_echoserver_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
  800fa86:	f7f8 fd3b 	bl	8008500 <tcp_arg>
 
     /* initialize lwip tcp_recv callback function for newpcb  */
-    tcp_recv(newpcb, tcp_echoserver_recv);
- 800fa8a:	490c      	ldr	r1, [pc, #48]	; (800fabc <tcp_echoserver_accept+0x70>)
+    tcp_recv(newpcb, tcp_server_recv);
+ 800fa8a:	490c      	ldr	r1, [pc, #48]	; (800fabc <tcp_server_accept+0x70>)
  800fa8c:	68b8      	ldr	r0, [r7, #8]
  800fa8e:	f7f8 fd49 	bl	8008524 <tcp_recv>
 
     /* initialize lwip tcp_err callback function for newpcb  */
-    tcp_err(newpcb, tcp_echoserver_error);
- 800fa92:	490b      	ldr	r1, [pc, #44]	; (800fac0 <tcp_echoserver_accept+0x74>)
+    tcp_err(newpcb, tcp_server_error);
+ 800fa92:	490b      	ldr	r1, [pc, #44]	; (800fac0 <tcp_server_accept+0x74>)
  800fa94:	68b8      	ldr	r0, [r7, #8]
  800fa96:	f7f8 fd89 	bl	80085ac <tcp_err>
 
     /* initialize lwip tcp_poll callback function for newpcb */
-    tcp_poll(newpcb, tcp_echoserver_poll, 1);
+    tcp_poll(newpcb, tcp_server_poll, 1);
  800fa9a:	2201      	movs	r2, #1
- 800fa9c:	4909      	ldr	r1, [pc, #36]	; (800fac4 <tcp_echoserver_accept+0x78>)
+ 800fa9c:	4909      	ldr	r1, [pc, #36]	; (800fac4 <tcp_server_accept+0x78>)
  800fa9e:	68b8      	ldr	r0, [r7, #8]
  800faa0:	f7f8 fdbe 	bl	8008620 <tcp_poll>
 
     ret_err = ERR_OK;
  800faa4:	2300      	movs	r3, #0
  800faa6:	75fb      	strb	r3, [r7, #23]
- 800faa8:	e001      	b.n	800faae <tcp_echoserver_accept+0x62>
+ 800faa8:	e001      	b.n	800faae <tcp_server_accept+0x62>
   }
   else
   {
@@ -41656,12 +41656,12 @@ static err_t tcp_echoserver_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
  800fac0:	0800fbd9 	.word	0x0800fbd9
  800fac4:	0800fbfd 	.word	0x0800fbfd
 
-0800fac8 <tcp_echoserver_recv>:
+0800fac8 <tcp_server_recv>:
   * @param  pbuf: pointer on the received pbuf
   * @param  err: error information regarding the reveived pbuf
   * @retval err_t: error code
   */
-static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
+static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
  800fac8:	b580      	push	{r7, lr}
  800faca:	b088      	sub	sp, #32
@@ -41670,20 +41670,20 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
  800fad0:	60b9      	str	r1, [r7, #8]
  800fad2:	607a      	str	r2, [r7, #4]
  800fad4:	70fb      	strb	r3, [r7, #3]
-  struct tcp_echoserver_struct *es;
+  struct tcp_server_struct *es;
   err_t ret_err;
 
   LWIP_ASSERT("arg != NULL",arg != NULL);
  800fad6:	68fb      	ldr	r3, [r7, #12]
  800fad8:	2b00      	cmp	r3, #0
- 800fada:	d105      	bne.n	800fae8 <tcp_echoserver_recv+0x20>
- 800fadc:	4b3a      	ldr	r3, [pc, #232]	; (800fbc8 <tcp_echoserver_recv+0x100>)
+ 800fada:	d105      	bne.n	800fae8 <tcp_server_recv+0x20>
+ 800fadc:	4b3a      	ldr	r3, [pc, #232]	; (800fbc8 <tcp_server_recv+0x100>)
  800fade:	227b      	movs	r2, #123	; 0x7b
- 800fae0:	493a      	ldr	r1, [pc, #232]	; (800fbcc <tcp_echoserver_recv+0x104>)
- 800fae2:	483b      	ldr	r0, [pc, #236]	; (800fbd0 <tcp_echoserver_recv+0x108>)
+ 800fae0:	493a      	ldr	r1, [pc, #232]	; (800fbcc <tcp_server_recv+0x104>)
+ 800fae2:	483b      	ldr	r0, [pc, #236]	; (800fbd0 <tcp_server_recv+0x108>)
  800fae4:	f000 f9ac 	bl	800fe40 <iprintf>
 
-  es = (struct tcp_echoserver_struct *)arg;
+  es = (struct tcp_server_struct *)arg;
  800fae8:	68fb      	ldr	r3, [r7, #12]
  800faea:	61bb      	str	r3, [r7, #24]
 
@@ -41691,7 +41691,7 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
   if (p == NULL)
  800faec:	687b      	ldr	r3, [r7, #4]
  800faee:	2b00      	cmp	r3, #0
- 800faf0:	d116      	bne.n	800fb20 <tcp_echoserver_recv+0x58>
+ 800faf0:	d116      	bne.n	800fb20 <tcp_server_recv+0x58>
   {
     /* remote host closed connection */
     es->state = ES_CLOSING;
@@ -41702,46 +41702,46 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
  800faf8:	69bb      	ldr	r3, [r7, #24]
  800fafa:	689b      	ldr	r3, [r3, #8]
  800fafc:	2b00      	cmp	r3, #0
- 800fafe:	d104      	bne.n	800fb0a <tcp_echoserver_recv+0x42>
+ 800fafe:	d104      	bne.n	800fb0a <tcp_server_recv+0x42>
     {
        /* we're done sending, close connection */
-       tcp_echoserver_connection_close(tpcb, es);
+       tcp_server_connection_close(tpcb, es);
  800fb00:	69b9      	ldr	r1, [r7, #24]
  800fb02:	68b8      	ldr	r0, [r7, #8]
- 800fb04:	f000 f92c 	bl	800fd60 <tcp_echoserver_connection_close>
- 800fb08:	e007      	b.n	800fb1a <tcp_echoserver_recv+0x52>
+ 800fb04:	f000 f92c 	bl	800fd60 <tcp_server_connection_close>
+ 800fb08:	e007      	b.n	800fb1a <tcp_server_recv+0x52>
     }
     else
     {
       /* we're not done yet */
       /* acknowledge received packet */
-      tcp_sent(tpcb, tcp_echoserver_sent);
- 800fb0a:	4932      	ldr	r1, [pc, #200]	; (800fbd4 <tcp_echoserver_recv+0x10c>)
+      tcp_sent(tpcb, tcp_server_sent);
+ 800fb0a:	4932      	ldr	r1, [pc, #200]	; (800fbd4 <tcp_server_recv+0x10c>)
  800fb0c:	68b8      	ldr	r0, [r7, #8]
  800fb0e:	f7f8 fd2b 	bl	8008568 <tcp_sent>
 
       /* send remaining data*/
-      tcp_echoserver_send(tpcb, es);
+      tcp_server_send(tpcb, es);
  800fb12:	69b9      	ldr	r1, [r7, #24]
  800fb14:	68b8      	ldr	r0, [r7, #8]
- 800fb16:	f000 f8b9 	bl	800fc8c <tcp_echoserver_send>
+ 800fb16:	f000 f8b9 	bl	800fc8c <tcp_server_send>
     }
     ret_err = ERR_OK;
  800fb1a:	2300      	movs	r3, #0
  800fb1c:	77fb      	strb	r3, [r7, #31]
- 800fb1e:	e04c      	b.n	800fbba <tcp_echoserver_recv+0xf2>
+ 800fb1e:	e04c      	b.n	800fbba <tcp_server_recv+0xf2>
   }
   /* else : a non empty frame was received from client but for some reason err != ERR_OK */
   else if(err != ERR_OK)
  800fb20:	f997 3003 	ldrsb.w	r3, [r7, #3]
  800fb24:	2b00      	cmp	r3, #0
- 800fb26:	d00b      	beq.n	800fb40 <tcp_echoserver_recv+0x78>
+ 800fb26:	d00b      	beq.n	800fb40 <tcp_server_recv+0x78>
   {
     /* free received pbuf*/
     if (p != NULL)
  800fb28:	687b      	ldr	r3, [r7, #4]
  800fb2a:	2b00      	cmp	r3, #0
- 800fb2c:	d005      	beq.n	800fb3a <tcp_echoserver_recv+0x72>
+ 800fb2c:	d005      	beq.n	800fb3a <tcp_server_recv+0x72>
     {
       es->p = NULL;
  800fb2e:	69bb      	ldr	r3, [r7, #24]
@@ -41754,13 +41754,13 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
     ret_err = err;
  800fb3a:	78fb      	ldrb	r3, [r7, #3]
  800fb3c:	77fb      	strb	r3, [r7, #31]
- 800fb3e:	e03c      	b.n	800fbba <tcp_echoserver_recv+0xf2>
+ 800fb3e:	e03c      	b.n	800fbba <tcp_server_recv+0xf2>
   }
   else if(es->state == ES_ACCEPTED)
  800fb40:	69bb      	ldr	r3, [r7, #24]
  800fb42:	781b      	ldrb	r3, [r3, #0]
  800fb44:	2b01      	cmp	r3, #1
- 800fb46:	d110      	bne.n	800fb6a <tcp_echoserver_recv+0xa2>
+ 800fb46:	d110      	bne.n	800fb6a <tcp_server_recv+0xa2>
   {
     /* first data chunk in p->payload */
     es->state = ES_RECEIVED;
@@ -41775,34 +41775,34 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
  800fb52:	609a      	str	r2, [r3, #8]
 
     /* initialize LwIP tcp_sent callback function */
-    tcp_sent(tpcb, tcp_echoserver_sent);
- 800fb54:	491f      	ldr	r1, [pc, #124]	; (800fbd4 <tcp_echoserver_recv+0x10c>)
+    tcp_sent(tpcb, tcp_server_sent);
+ 800fb54:	491f      	ldr	r1, [pc, #124]	; (800fbd4 <tcp_server_recv+0x10c>)
  800fb56:	68b8      	ldr	r0, [r7, #8]
  800fb58:	f7f8 fd06 	bl	8008568 <tcp_sent>
 
-    /* send back the received data (echo) */
-    tcp_echoserver_send(tpcb, es);
+    /* send back the received data () */
+    tcp_server_send(tpcb, es);
  800fb5c:	69b9      	ldr	r1, [r7, #24]
  800fb5e:	68b8      	ldr	r0, [r7, #8]
- 800fb60:	f000 f894 	bl	800fc8c <tcp_echoserver_send>
+ 800fb60:	f000 f894 	bl	800fc8c <tcp_server_send>
 
     ret_err = ERR_OK;
  800fb64:	2300      	movs	r3, #0
  800fb66:	77fb      	strb	r3, [r7, #31]
- 800fb68:	e027      	b.n	800fbba <tcp_echoserver_recv+0xf2>
+ 800fb68:	e027      	b.n	800fbba <tcp_server_recv+0xf2>
   }
   else if (es->state == ES_RECEIVED)
  800fb6a:	69bb      	ldr	r3, [r7, #24]
  800fb6c:	781b      	ldrb	r3, [r3, #0]
  800fb6e:	2b02      	cmp	r3, #2
- 800fb70:	d115      	bne.n	800fb9e <tcp_echoserver_recv+0xd6>
+ 800fb70:	d115      	bne.n	800fb9e <tcp_server_recv+0xd6>
   {
     /* more data received from client and previous data has been already sent*/
     if(es->p == NULL)
  800fb72:	69bb      	ldr	r3, [r7, #24]
  800fb74:	689b      	ldr	r3, [r3, #8]
  800fb76:	2b00      	cmp	r3, #0
- 800fb78:	d107      	bne.n	800fb8a <tcp_echoserver_recv+0xc2>
+ 800fb78:	d107      	bne.n	800fb8a <tcp_server_recv+0xc2>
     {
       es->p = p;
  800fb7a:	69bb      	ldr	r3, [r7, #24]
@@ -41810,11 +41810,11 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
  800fb7e:	609a      	str	r2, [r3, #8]
 
       /* send back received data */
-      tcp_echoserver_send(tpcb, es);
+      tcp_server_send(tpcb, es);
  800fb80:	69b9      	ldr	r1, [r7, #24]
  800fb82:	68b8      	ldr	r0, [r7, #8]
- 800fb84:	f000 f882 	bl	800fc8c <tcp_echoserver_send>
- 800fb88:	e006      	b.n	800fb98 <tcp_echoserver_recv+0xd0>
+ 800fb84:	f000 f882 	bl	800fc8c <tcp_server_send>
+ 800fb88:	e006      	b.n	800fb98 <tcp_server_recv+0xd0>
     else
     {
       struct pbuf *ptr;
@@ -41832,7 +41832,7 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
     ret_err = ERR_OK;
  800fb98:	2300      	movs	r3, #0
  800fb9a:	77fb      	strb	r3, [r7, #31]
- 800fb9c:	e00d      	b.n	800fbba <tcp_echoserver_recv+0xf2>
+ 800fb9c:	e00d      	b.n	800fbba <tcp_server_recv+0xf2>
 
   /* data received when connection already closed */
   else
@@ -41870,12 +41870,12 @@ static err_t tcp_echoserver_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p
  800fbd0:	080139ac 	.word	0x080139ac
  800fbd4:	0800fc4f 	.word	0x0800fc4f
 
-0800fbd8 <tcp_echoserver_error>:
+0800fbd8 <tcp_server_error>:
   * @param  arg: pointer on argument parameter
   * @param  err: not used
   * @retval None
   */
-static void tcp_echoserver_error(void *arg, err_t err)
+static void tcp_server_error(void *arg, err_t err)
 {
  800fbd8:	b580      	push	{r7, lr}
  800fbda:	b084      	sub	sp, #16
@@ -41883,17 +41883,17 @@ static void tcp_echoserver_error(void *arg, err_t err)
  800fbde:	6078      	str	r0, [r7, #4]
  800fbe0:	460b      	mov	r3, r1
  800fbe2:	70fb      	strb	r3, [r7, #3]
-  struct tcp_echoserver_struct *es;
+  struct tcp_server_struct *es;
 
   LWIP_UNUSED_ARG(err);
 
-  es = (struct tcp_echoserver_struct *)arg;
+  es = (struct tcp_server_struct *)arg;
  800fbe4:	687b      	ldr	r3, [r7, #4]
  800fbe6:	60fb      	str	r3, [r7, #12]
   if (es != NULL)
  800fbe8:	68fb      	ldr	r3, [r7, #12]
  800fbea:	2b00      	cmp	r3, #0
- 800fbec:	d002      	beq.n	800fbf4 <tcp_echoserver_error+0x1c>
+ 800fbec:	d002      	beq.n	800fbf4 <tcp_server_error+0x1c>
   {
     /*  free es structure */
     mem_free(es);
@@ -41906,12 +41906,12 @@ static void tcp_echoserver_error(void *arg, err_t err)
  800fbf8:	46bd      	mov	sp, r7
  800fbfa:	bd80      	pop	{r7, pc}
 
-0800fbfc <tcp_echoserver_poll>:
+0800fbfc <tcp_server_poll>:
   * @param  arg: pointer on argument passed to callback
   * @param  tpcb: pointer on the tcp_pcb for the current tcp connection
   * @retval err_t: error code
   */
-static err_t tcp_echoserver_poll(void *arg, struct tcp_pcb *tpcb)
+static err_t tcp_server_poll(void *arg, struct tcp_pcb *tpcb)
 {
  800fbfc:	b580      	push	{r7, lr}
  800fbfe:	b084      	sub	sp, #16
@@ -41919,28 +41919,28 @@ static err_t tcp_echoserver_poll(void *arg, struct tcp_pcb *tpcb)
  800fc02:	6078      	str	r0, [r7, #4]
  800fc04:	6039      	str	r1, [r7, #0]
   err_t ret_err;
-  struct tcp_echoserver_struct *es;
+  struct tcp_server_struct *es;
 
-  es = (struct tcp_echoserver_struct *)arg;
+  es = (struct tcp_server_struct *)arg;
  800fc06:	687b      	ldr	r3, [r7, #4]
  800fc08:	60bb      	str	r3, [r7, #8]
   if (es != NULL)
  800fc0a:	68bb      	ldr	r3, [r7, #8]
  800fc0c:	2b00      	cmp	r3, #0
- 800fc0e:	d013      	beq.n	800fc38 <tcp_echoserver_poll+0x3c>
+ 800fc0e:	d013      	beq.n	800fc38 <tcp_server_poll+0x3c>
   {
     if (es->p != NULL)
  800fc10:	68bb      	ldr	r3, [r7, #8]
  800fc12:	689b      	ldr	r3, [r3, #8]
  800fc14:	2b00      	cmp	r3, #0
- 800fc16:	d004      	beq.n	800fc22 <tcp_echoserver_poll+0x26>
+ 800fc16:	d004      	beq.n	800fc22 <tcp_server_poll+0x26>
     {
       /* there is a remaining pbuf (chain) , try to send data */
-      tcp_echoserver_send(tpcb, es);
+      tcp_server_send(tpcb, es);
  800fc18:	68b9      	ldr	r1, [r7, #8]
  800fc1a:	6838      	ldr	r0, [r7, #0]
- 800fc1c:	f000 f836 	bl	800fc8c <tcp_echoserver_send>
- 800fc20:	e007      	b.n	800fc32 <tcp_echoserver_poll+0x36>
+ 800fc1c:	f000 f836 	bl	800fc8c <tcp_server_send>
+ 800fc20:	e007      	b.n	800fc32 <tcp_server_poll+0x36>
     }
     else
     {
@@ -41949,19 +41949,19 @@ static err_t tcp_echoserver_poll(void *arg, struct tcp_pcb *tpcb)
  800fc22:	68bb      	ldr	r3, [r7, #8]
  800fc24:	781b      	ldrb	r3, [r3, #0]
  800fc26:	2b03      	cmp	r3, #3
- 800fc28:	d103      	bne.n	800fc32 <tcp_echoserver_poll+0x36>
+ 800fc28:	d103      	bne.n	800fc32 <tcp_server_poll+0x36>
       {
         /*  close tcp connection */
-        tcp_echoserver_connection_close(tpcb, es);
+        tcp_server_connection_close(tpcb, es);
  800fc2a:	68b9      	ldr	r1, [r7, #8]
  800fc2c:	6838      	ldr	r0, [r7, #0]
- 800fc2e:	f000 f897 	bl	800fd60 <tcp_echoserver_connection_close>
+ 800fc2e:	f000 f897 	bl	800fd60 <tcp_server_connection_close>
       }
     }
     ret_err = ERR_OK;
  800fc32:	2300      	movs	r3, #0
  800fc34:	73fb      	strb	r3, [r7, #15]
- 800fc36:	e004      	b.n	800fc42 <tcp_echoserver_poll+0x46>
+ 800fc36:	e004      	b.n	800fc42 <tcp_server_poll+0x46>
   }
   else
   {
@@ -41981,12 +41981,12 @@ static err_t tcp_echoserver_poll(void *arg, struct tcp_pcb *tpcb)
  800fc4a:	46bd      	mov	sp, r7
  800fc4c:	bd80      	pop	{r7, pc}
 
-0800fc4e <tcp_echoserver_sent>:
+0800fc4e <tcp_server_sent>:
   *         is received from remote host for sent data)
   * @param  None
   * @retval None
   */
-static err_t tcp_echoserver_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
+static err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 {
  800fc4e:	b580      	push	{r7, lr}
  800fc50:	b086      	sub	sp, #24
@@ -41995,11 +41995,11 @@ static err_t tcp_echoserver_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
  800fc56:	60b9      	str	r1, [r7, #8]
  800fc58:	4613      	mov	r3, r2
  800fc5a:	80fb      	strh	r3, [r7, #6]
-  struct tcp_echoserver_struct *es;
+  struct tcp_server_struct *es;
 
   LWIP_UNUSED_ARG(len);
 
-  es = (struct tcp_echoserver_struct *)arg;
+  es = (struct tcp_server_struct *)arg;
  800fc5c:	68fb      	ldr	r3, [r7, #12]
  800fc5e:	617b      	str	r3, [r7, #20]
 
@@ -42007,14 +42007,14 @@ static err_t tcp_echoserver_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
  800fc60:	697b      	ldr	r3, [r7, #20]
  800fc62:	689b      	ldr	r3, [r3, #8]
  800fc64:	2b00      	cmp	r3, #0
- 800fc66:	d004      	beq.n	800fc72 <tcp_echoserver_sent+0x24>
+ 800fc66:	d004      	beq.n	800fc72 <tcp_server_sent+0x24>
   {
     /* still got pbufs to send */
-    tcp_echoserver_send(tpcb, es);
+    tcp_server_send(tpcb, es);
  800fc68:	6979      	ldr	r1, [r7, #20]
  800fc6a:	68b8      	ldr	r0, [r7, #8]
- 800fc6c:	f000 f80e 	bl	800fc8c <tcp_echoserver_send>
- 800fc70:	e007      	b.n	800fc82 <tcp_echoserver_sent+0x34>
+ 800fc6c:	f000 f80e 	bl	800fc8c <tcp_server_send>
+ 800fc70:	e007      	b.n	800fc82 <tcp_server_sent+0x34>
   }
   else
   {
@@ -42023,11 +42023,11 @@ static err_t tcp_echoserver_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
  800fc72:	697b      	ldr	r3, [r7, #20]
  800fc74:	781b      	ldrb	r3, [r3, #0]
  800fc76:	2b03      	cmp	r3, #3
- 800fc78:	d103      	bne.n	800fc82 <tcp_echoserver_sent+0x34>
-      tcp_echoserver_connection_close(tpcb, es);
+ 800fc78:	d103      	bne.n	800fc82 <tcp_server_sent+0x34>
+      tcp_server_connection_close(tpcb, es);
  800fc7a:	6979      	ldr	r1, [r7, #20]
  800fc7c:	68b8      	ldr	r0, [r7, #8]
- 800fc7e:	f000 f86f 	bl	800fd60 <tcp_echoserver_connection_close>
+ 800fc7e:	f000 f86f 	bl	800fd60 <tcp_server_connection_close>
   }
   return ERR_OK;
  800fc82:	2300      	movs	r3, #0
@@ -42037,12 +42037,12 @@ static err_t tcp_echoserver_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
  800fc88:	46bd      	mov	sp, r7
  800fc8a:	bd80      	pop	{r7, pc}
 
-0800fc8c <tcp_echoserver_send>:
+0800fc8c <tcp_server_send>:
   * @param  tpcb: pointer on the tcp_pcb connection
-  * @param  es: pointer on echo_state structure
+  * @param  es: pointer on _state structure
   * @retval None
   */
-static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_struct *es)
+static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 {
  800fc8c:	b580      	push	{r7, lr}
  800fc8e:	b086      	sub	sp, #24
@@ -42055,7 +42055,7 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
  800fc98:	75fb      	strb	r3, [r7, #23]
 
   while ((wr_err == ERR_OK) &&
- 800fc9a:	e04d      	b.n	800fd38 <tcp_echoserver_send+0xac>
+ 800fc9a:	e04d      	b.n	800fd38 <tcp_server_send+0xac>
          (es->p != NULL) &&
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
@@ -42081,7 +42081,7 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
     if (wr_err == ERR_OK)
  800fcb6:	f997 3017 	ldrsb.w	r3, [r7, #23]
  800fcba:	2b00      	cmp	r3, #0
- 800fcbc:	d134      	bne.n	800fd28 <tcp_echoserver_send+0x9c>
+ 800fcbc:	d134      	bne.n	800fd28 <tcp_server_send+0x9c>
     {
       u16_t plen;
 
@@ -42130,7 +42130,7 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
  800fd04:	683b      	ldr	r3, [r7, #0]
  800fd06:	689b      	ldr	r3, [r3, #8]
  800fd08:	2b00      	cmp	r3, #0
- 800fd0a:	d004      	beq.n	800fd16 <tcp_echoserver_send+0x8a>
+ 800fd0a:	d004      	beq.n	800fd16 <tcp_server_send+0x8a>
       {
         /* increment reference count for es->p */
         pbuf_ref(es->p);
@@ -42152,12 +42152,12 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
  800fd1e:	4619      	mov	r1, r3
  800fd20:	6878      	ldr	r0, [r7, #4]
  800fd22:	f7f7 fd0f 	bl	8007744 <tcp_recved>
- 800fd26:	e007      	b.n	800fd38 <tcp_echoserver_send+0xac>
+ 800fd26:	e007      	b.n	800fd38 <tcp_server_send+0xac>
    }
    else if(wr_err == ERR_MEM)
  800fd28:	f997 3017 	ldrsb.w	r3, [r7, #23]
  800fd2c:	f1b3 3fff 	cmp.w	r3, #4294967295
- 800fd30:	d102      	bne.n	800fd38 <tcp_echoserver_send+0xac>
+ 800fd30:	d102      	bne.n	800fd38 <tcp_server_send+0xac>
    {
       /* we are low on memory, try later / harder, defer to poll */
      es->p = ptr;
@@ -42167,13 +42167,13 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
   while ((wr_err == ERR_OK) &&
  800fd38:	f997 3017 	ldrsb.w	r3, [r7, #23]
  800fd3c:	2b00      	cmp	r3, #0
- 800fd3e:	d10b      	bne.n	800fd58 <tcp_echoserver_send+0xcc>
+ 800fd3e:	d10b      	bne.n	800fd58 <tcp_server_send+0xcc>
          (es->p != NULL) &&
  800fd40:	683b      	ldr	r3, [r7, #0]
  800fd42:	689b      	ldr	r3, [r3, #8]
   while ((wr_err == ERR_OK) &&
  800fd44:	2b00      	cmp	r3, #0
- 800fd46:	d007      	beq.n	800fd58 <tcp_echoserver_send+0xcc>
+ 800fd46:	d007      	beq.n	800fd58 <tcp_server_send+0xcc>
          (es->p->len <= tcp_sndbuf(tpcb)))
  800fd48:	683b      	ldr	r3, [r7, #0]
  800fd4a:	689b      	ldr	r3, [r3, #8]
@@ -42182,7 +42182,7 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
  800fd50:	f8b3 3064 	ldrh.w	r3, [r3, #100]	; 0x64
          (es->p != NULL) &&
  800fd54:	429a      	cmp	r2, r3
- 800fd56:	d9a1      	bls.n	800fc9c <tcp_echoserver_send+0x10>
+ 800fd56:	d9a1      	bls.n	800fc9c <tcp_server_send+0x10>
    else
    {
      /* other problem ?? */
@@ -42194,12 +42194,12 @@ static void tcp_echoserver_send(struct tcp_pcb *tpcb, struct tcp_echoserver_stru
  800fd5c:	46bd      	mov	sp, r7
  800fd5e:	bd80      	pop	{r7, pc}
 
-0800fd60 <tcp_echoserver_connection_close>:
+0800fd60 <tcp_server_connection_close>:
   * @param  tcp_pcb: pointer on the tcp connection
-  * @param  es: pointer on echo_state structure
+  * @param  es: pointer on _state structure
   * @retval None
   */
-static void tcp_echoserver_connection_close(struct tcp_pcb *tpcb, struct tcp_echoserver_struct *es)
+static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 {
  800fd60:	b580      	push	{r7, lr}
  800fd62:	b082      	sub	sp, #8
@@ -42234,7 +42234,7 @@ static void tcp_echoserver_connection_close(struct tcp_pcb *tpcb, struct tcp_ech
   if (es != NULL)
  800fd94:	683b      	ldr	r3, [r7, #0]
  800fd96:	2b00      	cmp	r3, #0
- 800fd98:	d002      	beq.n	800fda0 <tcp_echoserver_connection_close+0x40>
+ 800fd98:	d002      	beq.n	800fda0 <tcp_server_connection_close+0x40>
   {
     mem_free(es);
  800fd9a:	6838      	ldr	r0, [r7, #0]
