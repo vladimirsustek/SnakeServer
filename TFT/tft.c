@@ -46,8 +46,14 @@
 
 /********************************************** NO CHNAGES AFTER THIS ************************************************/
 
+TIM_HandleTypeDef htim2;
+
 void delay (uint32_t time)
 {
+	htim2.Instance->CNT = 0;
+	while(htim2.Instance->CNT == time);
+
+#if NOP_AUX_IMPLEMENTATION
 	for(uint32_t a = 0; a < time; a++)
 	{
 		for(uint32_t b = 0; b < 108; b++)
@@ -55,6 +61,7 @@ void delay (uint32_t time)
 			__NOP();
 		}
 	}
+#endif
 
 }
 
@@ -214,9 +221,18 @@ uint8_t wrap      = true;
 uint8_t _cp437    = false;
 uint8_t rotation  = 0;
 
-#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-#define pgm_read_word(addr) (*(const unsigned short *)(addr))
-#define pgm_read_pointer(addr) ((void *)pgm_read_word(addr))
+#define pgm_read_byte(addr) (*(const uint8_t*)(addr))
+#define pgm_read_word(addr) (*(const uint16_t*)(addr))
+
+/* Platform dependent workaround. For the pgm_read_pointer is needed
+ * to read the address value as wide, as wide is the native address (e.g. 32 bit).
+ * Therefore the pgm_read_int is used, to read STM32F767's 32-bit address and so
+ * correctly assign the pointer. Also the uintptr_t is used to cast int into ptr.
+ * In other words, MCU with 16-bit addresses needs to replace the pgm_read_int
+ * in the macro pgm_read_pointer with macro pgm_read_word
+ *  */
+#define pgm_read_int(addr) (*(const uint32_t*)(addr))
+#define pgm_read_pointer(addr) ((uintptr_t)pgm_read_int(addr))
 
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
@@ -453,6 +469,9 @@ void tft_init(uint16_t ID)
     const uint8_t *table8_ads = NULL;
     int16_t table_size;
     _lcd_xor = 0;
+
+    HAL_TIM_Base_Start(&htim2);
+
     switch (_lcd_ID = ID) {
 /*
 	static const uint16_t _regValues[]  = {
@@ -3820,13 +3839,13 @@ void getTextBounds(const char *str, int16_t x, int16_t y, int16_t *x1, int16_t *
 }
 
 
-void printnewtstr (int row, uint16_t txtcolor, const GFXfont *f, uint8_t txtsize, uint8_t *str)
+void printnewtstr (int row, uint16_t txtcolor, const GFXfont *f, uint8_t txtsize, char *str)
 {
 	setFont(f);
 	textcolor = txtcolor;
 	textsize = (txtsize > 0) ? txtsize : 1;
 	setCursor(0, row);
-	while (*str) write (*str++);
+	while (*(uint8_t*)str) write (*str++);
 }
 
 void printstr (uint8_t *str)

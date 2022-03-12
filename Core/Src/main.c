@@ -32,6 +32,8 @@
 
 #include "tft.h"
 #include "snake_function.h"
+
+#include "fonts.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,7 +45,10 @@ typedef void fn_t(void);
 /* USER CODE BEGIN PD */
 
 
-#ifdef DEBUG_EXECUTION_TIME
+#define DEBUG_EXECUTION_TIME 0
+#define SNAKE_GAME 0
+
+#if DEBUG_EXECUTION_TIME
 #define STOPWATCH_INIT()	(HAL_TIM_Base_Start(&htim1))
 #define STOPWATCH_START() 		(htim1.Instance->CNT = 0)
 #define STOPWATCH_STOP()  		(htim1.Instance->CNT)
@@ -110,17 +115,16 @@ int main(void)
   MX_LWIP_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
-
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   /*Initialize dependencies for snake game (TFT, Randomizer)*/
   snake_hw_init();
-
   /* Start TCP server on the address 192.168.100.1:8000 */
   tcp_server_init();
-
   /* Debug time execution timer */
   STOPWATCH_INIT();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,6 +135,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  VS_SnakeGameLoop();
+
   }
   /* USER CODE END 3 */
 }
@@ -225,13 +230,22 @@ void VS_SnakeGameLoop(void)
 	  snake_t snake = { 0 };
 	  food_t food = { 0 };
 	  uint32_t gPrgCycle = 0;
+	  uint8_t infoStringIdx = 0;
 	  snake_init(&snake);
 
-		STOPWATCH_START();
-		STOPWATCH_PRINT(0);
+	  STOPWATCH_START();
+	  STOPWATCH_PRINT(0);
+
+	  printnewtstr(100, YELLOW, &mono12x7bold, 1, "Paused - press P");
 
 	  for(;;)
 	  {
+
+		if(snake.direction != PAUSE && !infoStringIdx)
+		{
+			infoStringIdx = 1;
+			  printnewtstr(100, BLACK, &mono12x7bold, 1, "Paused - press P");
+		}
 
 		STOPWATCH_START();
 		snake_control(&snake);

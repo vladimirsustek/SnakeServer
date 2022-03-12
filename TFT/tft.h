@@ -95,7 +95,7 @@ void setTextSize (uint8_t size);
 
 void setCursor(int16_t x, int16_t y);
 
-void printnewtstr (int row, uint16_t txtcolor, const GFXfont *f, uint8_t txtsize, uint8_t *str);
+void printnewtstr (int row, uint16_t txtcolor, const GFXfont *f, uint8_t txtsize, char *str);
 
 void printstr (uint8_t *str);
 
