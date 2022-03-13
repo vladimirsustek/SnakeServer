@@ -22,7 +22,7 @@ static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_
   * @param  None
   * @retval None
   */
-void tcp_server_init(void)
+void tcp_server_init(uint16_t port)
 {
   /* create new tcp pcb */
   tcp_server_pcb = tcp_new();
@@ -32,7 +32,6 @@ void tcp_server_init(void)
     err_t err;
     ip4_addr_t ipAddress;
     IP4_ADDR(&ipAddress, 192, 168, 100, 1);
-    uint16_t port = 8000;
 
     /* bind _pcb to port 7 ( protocol) */
     //err = tcp_bind(tcp_server_pcb, IP_ADDR_ANY, 7);

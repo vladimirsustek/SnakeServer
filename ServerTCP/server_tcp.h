@@ -32,6 +32,6 @@ struct tcp_server_struct
   struct pbuf *p;         /* pointer on the received/to be transmitted pbuf */
 };
 
-void tcp_server_init(void);
+void tcp_server_init(uint16_t port);
 
 #endif /* SERVER_TCP_H_ */

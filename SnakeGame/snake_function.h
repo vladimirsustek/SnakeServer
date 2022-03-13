@@ -10,15 +10,20 @@
 
 #include "snake_port.h"
 
+
+/* pointer to function returning uint32_t with uint32_t parameter
+ * used for snake_delay as an function called during blocking delay */
+typedef uint32_t fn_t(uint32_t);
+
 void snake_hw_init(void);
 void snake_init(snake_t* snake);
 void snake_display(snake_t* snake);
 void snake_diplay_borders(void);
 void snake_move(snake_t* snake);
-uint16_t generate_food(snake_t* snake, food_t *food);
-void snake_place_food(snake_t* snake, food_t* food, uint32_t tick);
+void snake_place_food(snake_t* snake, food_t* food);
 void snake_haseaten(snake_t* snake, food_t* food);
 void snake_inform(snake_t* snake);
 void snake_control(snake_t* snake);
+void snake_delay(uint32_t Delay, fn_t func);
 
 #endif /* SNAKE_FUNCTION_H_ */

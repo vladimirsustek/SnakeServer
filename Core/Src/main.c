@@ -38,27 +38,24 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef void fn_t(void);
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
-
 #define DEBUG_EXECUTION_TIME 0
-#define SNAKE_GAME 0
 
 #if DEBUG_EXECUTION_TIME
-#define STOPWATCH_INIT()	(HAL_TIM_Base_Start(&htim1))
+#define STOPWATCH_INIT()		(HAL_TIM_Base_Start(&htim1))
 #define STOPWATCH_START() 		(htim1.Instance->CNT = 0)
 #define STOPWATCH_STOP()  		(htim1.Instance->CNT)
 #define STOPWATCH_PRINT(idx) 	(printf("%d:%lu\n",(idx), STOPWATCH_STOP()))
 #else
-#define STOPWATCH_INIT()	({})
-#define STOPWATCH_START() 	({})
-#define STOPWATCH_STOP() 	({})
-#define STOPWATCH_PRINT(idx)({(idx);})
+#define STOPWATCH_INIT()		({})
+#define STOPWATCH_START() 		({})
+#define STOPWATCH_STOP() 		({})
+#define STOPWATCH_PRINT(idx)	({(idx);})
 #endif
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -120,8 +117,6 @@ int main(void)
 
   /*Initialize dependencies for snake game (TFT, Randomizer)*/
   snake_hw_init();
-  /* Start TCP server on the address 192.168.100.1:8000 */
-  tcp_server_init();
   /* Debug time execution timer */
   STOPWATCH_INIT();
 
@@ -201,22 +196,12 @@ int _write(int file, char *ptr, int len)
 	return len;
 }
 
-void VS_DelayWithPolling(uint32_t Delay, fn_t func)
+uint32_t VS_LWIP_Process_Wrapper(uint32_t optional_arg)
 {
-  uint32_t tickstart = HAL_GetTick();
-  uint32_t wait = Delay;
-
-  /* Add a freq to guarantee minimum wait */
-  if (wait < HAL_MAX_DELAY)
-  {
-    wait += (uint32_t)(uwTickFreq);
-  }
-
-  while ((HAL_GetTick() - tickstart) < wait)
-  {
-	  func();
-  }
+	MX_LWIP_Process();
+	return optional_arg;
 }
+
 
 /**
   * @brief  This function is the implementation of Snake Game (infinite loop game)
@@ -229,14 +214,13 @@ void VS_SnakeGameLoop(void)
 	  /*Snake (re)initiliazation */
 	  snake_t snake = { 0 };
 	  food_t food = { 0 };
-	  uint32_t gPrgCycle = 0;
 	  uint8_t infoStringIdx = 0;
 	  snake_init(&snake);
 
 	  STOPWATCH_START();
 	  STOPWATCH_PRINT(0);
 
-	  printnewtstr(100, YELLOW, &mono12x7bold, 1, "Paused - press P");
+	  //printnewtstr(10, YELLOW, &mono9x7, 1, "Paused - press P");
 
 	  for(;;)
 	  {
@@ -244,7 +228,7 @@ void VS_SnakeGameLoop(void)
 		if(snake.direction != PAUSE && !infoStringIdx)
 		{
 			infoStringIdx = 1;
-			  printnewtstr(100, BLACK, &mono12x7bold, 1, "Paused - press P");
+			  //printnewtstr(10, BLACK, &mono9x7, 1, "Paused - press P");
 		}
 
 		STOPWATCH_START();
@@ -266,13 +250,11 @@ void VS_SnakeGameLoop(void)
 		STOPWATCH_PRINT(4);
 
 		STOPWATCH_START();
-		snake_place_food(&snake, &food, gPrgCycle);
+		snake_place_food(&snake, &food);
 		STOPWATCH_PRINT(5);
 
-		gPrgCycle++;
-
 		STOPWATCH_START();
-		VS_DelayWithPolling(150, MX_LWIP_Process);
+		snake_delay(150, VS_LWIP_Process_Wrapper);
 		STOPWATCH_PRINT(6);
 	  }
 }
