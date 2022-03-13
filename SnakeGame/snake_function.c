@@ -323,8 +323,9 @@ uint16_t static generate_food(snake_t* snake, food_t *food)
 
 	if (NULL == snake || NULL == food || PAUSE == snake->direction)
 	{
-		return 0;
+		return -1;
 	}
+
 	/* Try to generate x and y coords of the food and check if it is not snake's body */
 	do
 	{
@@ -377,7 +378,16 @@ uint16_t static generate_food(snake_t* snake, food_t *food)
   */
 void snake_place_food(snake_t* snake, food_t* food)
 {
-	if (NULL == snake || NULL == food || PAUSE == snake->direction)
+	if (NULL == snake || NULL == food )
+	{
+		return;
+	}
+	if (food->rePrintFood && PLACED == food->state)
+	{
+		platform_drawFood(food->coord.x, food->coord.y);
+		food->rePrintFood = 0;
+	}
+	if (PAUSE == snake->direction)
 	{
 		return;
 	}
@@ -450,7 +460,7 @@ void snake_haseaten(snake_t* snake, food_t* food)
   * @param snake - pointer to a snake structure
   * @retval None
   */
-void snake_inform(snake_t* snake)
+void snake_inform(snake_t* snake, food_t* food)
 {
 	static uint16_t pauseStringAppeared = 0;
 	char printStr[20] = {0};
@@ -458,25 +468,26 @@ void snake_inform(snake_t* snake)
 
 	if(snake->direction == PAUSE && !pauseStringAppeared)
 	{
-		sprintf(printStr, " Paused Score:%05d", snake->length - SNAKE_INIT_LNG);
+		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
 		platform_print_text(printStr, strlen(printStr), WHITE);
 		pauseStringAppeared = 1;
 	}
 	if(snake->direction != PAUSE && pauseStringAppeared)
 	{
-		sprintf(printStr, " Paused Score:%05d", snake->length - SNAKE_INIT_LNG);
+		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);
 		pauseStringAppeared = 0;
 		platform_print_text(printStr, strlen(printStr), BLACK);
 		snake->printWholeSnake = 1;
+		food->rePrintFood = 1;
 	}
 	if(snake->state == CRASHED)
 	{
-		sprintf(printStr, " Crash! Score:%05d", snake->length - SNAKE_INIT_LNG);
+		sprintf(printStr, " Crash!:score:%05d", snake->length - SNAKE_INIT_LNG);
 		platform_print_text(printStr, strlen(printStr), WHITE);
 	}
 	if(snake->state == WON)
 	{
-		sprintf(printStr, " Win  ! Score:%05d", snake->length - SNAKE_INIT_LNG);
+		sprintf(printStr, " Win  !:score:%05d", snake->length - SNAKE_INIT_LNG);
 		platform_print_text(printStr, strlen(printStr), WHITE);
 	}
 }

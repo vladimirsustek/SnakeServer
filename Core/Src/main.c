@@ -227,7 +227,7 @@ void VS_SnakeGameLoop(void)
 		snake_move(&snake);
 		STOPWATCH_PRINT(2);
 
-		snake_inform(&snake);
+		snake_inform(&snake, &food);
 
 		if (snake.state != PLAYING)
 		{

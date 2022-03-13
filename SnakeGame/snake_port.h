@@ -72,7 +72,7 @@
 #define FOOD_MIN_Y			(uint16_t)(1)
 
 /* General constants (applicable across platforms) */
-#define SNAKE_MAX_LNG		(uint16_t)(100)
+#define SNAKE_MAX_LNG		(uint16_t)(250)
 #define SNAKE_WON_LIMIT		(uint16_t)(SNAKE_MAX_LNG - 1)
 
 /* Definition, where snake starts and how is long */
@@ -117,6 +117,7 @@ typedef struct food_tag
 	coord_t coord;
 	foodstate_e state;
 	uint16_t time_elapsed;
+	uint8_t rePrintFood;
 } food_t;
 
 /* External char to control snake direction */

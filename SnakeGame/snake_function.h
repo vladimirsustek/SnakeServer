@@ -22,7 +22,7 @@ void snake_diplay_borders(void);
 void snake_move(snake_t* snake);
 void snake_place_food(snake_t* snake, food_t* food);
 void snake_haseaten(snake_t* snake, food_t* food);
-void snake_inform(snake_t* snake);
+void snake_inform(snake_t* snake, food_t* food);
 void snake_control(snake_t* snake);
 void snake_delay(uint32_t Delay, fn_t func);
 
