@@ -332,3 +332,27 @@ void platform_display_border(void)
 		drawRect(idx, idx, 319 - 2*idx, 479 - 2*idx, WHITE);
 	}
 }
+
+
+/**
+  * @brief  Print text of size 18x7 into upper-center,
+  *
+  * @note   Prints text with
+  *
+  *
+  * @param str - string to print
+  * @param length -
+  * @param color -
+  *
+  * @retval None
+  */
+void platform_print_text(char *str, uint16_t length, uint16_t color)
+{
+/*
+  * mono18x7bold maximally 13 on line without fix
+  * mono12x7bold maximally 19 on line without fix
+*/
+	fillRect(7, 140, 290, 20, BLACK);
+	printnewtstr(150, color, &mono12x7bold, 1, str);
+
+}

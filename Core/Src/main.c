@@ -119,7 +119,6 @@ int main(void)
   snake_hw_init();
   /* Debug time execution timer */
   STOPWATCH_INIT();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -214,22 +213,11 @@ void VS_SnakeGameLoop(void)
 	  /*Snake (re)initiliazation */
 	  snake_t snake = { 0 };
 	  food_t food = { 0 };
-	  uint8_t infoStringIdx = 0;
+
 	  snake_init(&snake);
 
-	  STOPWATCH_START();
-	  STOPWATCH_PRINT(0);
-
-	  //printnewtstr(10, YELLOW, &mono9x7, 1, "Paused - press P");
-
-	  for(;;)
+	  while(1)
 	  {
-
-		if(snake.direction != PAUSE && !infoStringIdx)
-		{
-			infoStringIdx = 1;
-			  //printnewtstr(10, BLACK, &mono9x7, 1, "Paused - press P");
-		}
 
 		STOPWATCH_START();
 		snake_control(&snake);
@@ -239,7 +227,14 @@ void VS_SnakeGameLoop(void)
 		snake_move(&snake);
 		STOPWATCH_PRINT(2);
 
-		if (snake.state != PLAYING) break;
+		snake_inform(&snake);
+
+		if (snake.state != PLAYING)
+		{
+			/* Make time to let user read information */
+			snake_delay(3000, VS_LWIP_Process_Wrapper);
+			break;
+		}
 
 		STOPWATCH_START();
 		snake_haseaten(&snake, &food);

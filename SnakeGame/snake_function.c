@@ -125,7 +125,7 @@ void snake_init(snake_t* snake)
 	snake->state = PLAYING;
 	snake->ghost.x = INVALID_COORDS;
 	snake->ghost.y = INVALID_COORDS;
-	snake->initial = 1;
+	snake->printWholeSnake = 1;
 	memset(&snake->body[0], 0, SNAKE_MAX_LNG*sizeof(coord_t));
 
 	gPrgCycle = 0;
@@ -152,7 +152,10 @@ void snake_init(snake_t* snake)
   */
 void snake_display(snake_t*  snake)
 {
-
+	if (NULL == snake || PAUSE == snake->direction)
+	{
+		return;
+	}
 	/* In case of move, erase snake's ghost tail  */
 	if (INVALID_COORDS != snake->ghost.x && INVALID_COORDS != snake->ghost.y)
 	{
@@ -160,9 +163,9 @@ void snake_display(snake_t*  snake)
 	}
 
 	/* In case of a brand new snake draw complete snake */
-	if(snake->initial)
+	if(snake->printWholeSnake)
 	{
-		snake ->initial = 0;
+		snake ->printWholeSnake = 0;
 		for (int idx = 0; idx < snake->length; idx++)
 		{
 			platform_drawCell(snake->body[idx].x, snake->body[idx].y);
@@ -219,7 +222,7 @@ void snake_move(snake_t* snake)
 	{
 	case UP:
 	{
-		if ((snake->body[snake->length - 1].y - 1) == ARENA_MIN_Y)
+		if ((snake->body[snake->length - 1].y - 1) == ARENA_MIN_Y - 1) // because 0 is still valid
 		{
 			snake->state = CRASHED;
 			break;
@@ -274,7 +277,7 @@ void snake_move(snake_t* snake)
 	break;
 	case LEFT:
 	{
-		if ((snake->body[snake->length - 1].x - 1) == ARENA_MIN_X)
+		if ((snake->body[snake->length - 1].x - 1) == ARENA_MIN_X - 1) // because 0 is still valid
 		{
 			snake->state = CRASHED;
 			break;
@@ -318,6 +321,10 @@ uint16_t static generate_food(snake_t* snake, food_t *food)
 	uint16_t iter = 0;
 	coord_t coords;
 
+	if (NULL == snake || NULL == food || PAUSE == snake->direction)
+	{
+		return 0;
+	}
 	/* Try to generate x and y coords of the food and check if it is not snake's body */
 	do
 	{
@@ -370,6 +377,11 @@ uint16_t static generate_food(snake_t* snake, food_t *food)
   */
 void snake_place_food(snake_t* snake, food_t* food)
 {
+	if (NULL == snake || NULL == food || PAUSE == snake->direction)
+	{
+		return;
+	}
+
 	if (0 == gPrgCycle % 10 || food->time_elapsed)
 	{
 		if (food->state != PLACED)
@@ -408,6 +420,10 @@ void snake_place_food(snake_t* snake, food_t* food)
 void snake_haseaten(snake_t* snake, food_t* food)
 {
 
+	if (NULL == snake || NULL == food || PAUSE == snake->direction)
+	{
+		return;
+	}
 
 	if ((snake->body[snake->length - 1].x == food->coord.x)
 		&& (snake->body[snake->length - 1].y == food->coord.y))
@@ -436,8 +452,35 @@ void snake_haseaten(snake_t* snake, food_t* food)
   */
 void snake_inform(snake_t* snake)
 {
-	/* To be done */
+	static uint16_t pauseStringAppeared = 0;
+	char printStr[20] = {0};
+
+
+	if(snake->direction == PAUSE && !pauseStringAppeared)
+	{
+		sprintf(printStr, " Paused Score:%05d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), WHITE);
+		pauseStringAppeared = 1;
+	}
+	if(snake->direction != PAUSE && pauseStringAppeared)
+	{
+		sprintf(printStr, " Paused Score:%05d", snake->length - SNAKE_INIT_LNG);
+		pauseStringAppeared = 0;
+		platform_print_text(printStr, strlen(printStr), BLACK);
+		snake->printWholeSnake = 1;
+	}
+	if(snake->state == CRASHED)
+	{
+		sprintf(printStr, " Crash! Score:%05d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), WHITE);
+	}
+	if(snake->state == WON)
+	{
+		sprintf(printStr, " Win  ! Score:%05d", snake->length - SNAKE_INIT_LNG);
+		platform_print_text(printStr, strlen(printStr), WHITE);
+	}
 }
+
 
 /**
   * @brief  Function to do pseudo-blocking delay

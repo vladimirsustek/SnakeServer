@@ -108,7 +108,7 @@ typedef struct snake_tag
 	coord_t body[SNAKE_MAX_LNG];
 	uint16_t length;
 	coord_t ghost;
-	uint8_t initial;
+	uint8_t printWholeSnake;
 	snake_state_e state;
 } snake_t;
 
@@ -137,5 +137,6 @@ void platform_fatal(void);
 void platform_get_control(snake_t* snake);
 void platform_refresh_hw(void);
 void platform_display_border(void);
+void platform_print_text(char *str, uint16_t length, uint16_t color);
 
 #endif /* SNAKE_PORT_H_ */
