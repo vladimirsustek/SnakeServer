@@ -19,8 +19,8 @@ ADC_HandleTypeDef hadc1;
 /* Randomizer seed */
 static uint16_t gRandSeed;
 
-/* Extern variable for controlling snake's direction */
-char extKeyBoardButton;
+/* variable for controlling snake's direction */
+static char gKeyBoardButton;
 
 
 /* wrapper around actual control implementation - start */
@@ -35,6 +35,22 @@ static void platform_control_init(void)
 static void platform_display_init(void)
 {
     tft_init(readID());
+}
+
+
+/**
+  * @brief  Function to set gKeyBoardButton
+  *
+  * @note This function must be called in controlling callback or ISR
+  *       function, because it directly stores into gKeyBoardButton
+  *       which is further used by platform_get_control()
+  *
+  * @param  None
+  * @retval None
+  */
+void platform_snake_set_control(char c)
+{
+	gKeyBoardButton = c;
 }
 
 
@@ -265,16 +281,16 @@ void platform_get_control(snake_t * snake)
 	snake_dir_e direction = 0;
 	static snake_dir_e prev_direction = RIGHT;
 
-	/* extKeyBoardButton is an external variable to be used and so
-	 * updated by any control interface (LWIP_TCP, UART, USB_OTG)*/
-	direction = (snake_dir_e)extKeyBoardButton;
+	/* this value should be set by platform_snake_set_control */
+	direction = (snake_dir_e)gKeyBoardButton;
 
 	if (direction == 0)
 	{
 		return;
 	}
 
-	extKeyBoardButton = 0;
+	/* reset the value as it has been already parsed */
+	platform_snake_set_control(0);
 
 	/* If received character is not a known function, do pause and save previous state */
 	if ((direction != LEFT) && (direction != RIGHT) && (direction != UP) &&

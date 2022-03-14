@@ -12,6 +12,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 /* Platform - LCD dependencies */
 #include "tft.h"
@@ -120,9 +121,6 @@ typedef struct food_tag
 	uint8_t rePrintFood;
 } food_t;
 
-/* External char to control snake direction */
-extern char extKeyBoardButton;
-
 void platform_drawCell(uint16_t x, uint16_t y);
 void platform_eraseCell(uint16_t x, uint16_t y);
 void platform_drawFood(uint16_t x, uint16_t y);
@@ -139,5 +137,6 @@ void platform_get_control(snake_t* snake);
 void platform_refresh_hw(void);
 void platform_display_border(void);
 void platform_print_text(char *str, uint16_t length, uint16_t color);
+void platform_snake_set_control(char c);
 
 #endif /* SNAKE_PORT_H_ */

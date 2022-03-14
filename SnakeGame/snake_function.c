@@ -70,15 +70,8 @@
 
 #include "snake_function.h"
 
-/* Needed for printf*/
-#include <stdio.h>
-
-/* Needed for uints*/
-#include <stdint.h>
-
 /* Counter incremented each game cycle (to know, when to generate a snake's food) */
 static uint32_t gPrgCycle = 0;
-
 
 /**
   * @brief  Function to set snake's direction.

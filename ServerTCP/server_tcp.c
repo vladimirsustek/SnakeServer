@@ -331,7 +331,7 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 #endif
 
       /* Binding with KeyBoard control */
-      extKeyBoardButton = pReceived[0];
+      platform_snake_set_control(pReceived[0]);
 
       mem_free(pReceived);
 
