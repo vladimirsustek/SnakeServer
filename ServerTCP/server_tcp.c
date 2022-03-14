@@ -48,12 +48,16 @@ void tcp_server_init(uint16_t port)
     }
     else
     {
+#ifdef SERVER_TCP_PRINTF_ENABLED
       printf("Can not bind pcb\n");
+#endif
     }
   }
   else
   {
+#ifdef SERVER_TCP_PRINTF_ENABLED
     printf("Can not create new pcb\n");
+#endif
   }
 }
 
@@ -177,14 +181,12 @@ static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, er
     if(es->p == NULL)
     {
       es->p = p;
-
       /* send back received data */
       tcp_server_send(tpcb, es);
     }
     else
     {
       struct pbuf *ptr;
-
       /* chain pbufs to the end of what we recv'ed previously  */
       ptr = es->p;
       pbuf_chain(ptr,p);
@@ -243,7 +245,7 @@ static err_t tcp_server_poll(void *arg, struct tcp_pcb *tpcb)
   {
     if (es->p != NULL)
     {
-      /* there is a remaining pbuf (chain) , try to send data */
+
       tcp_server_send(tpcb, es);
     }
     else
@@ -310,7 +312,6 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
          (es->p != NULL) &&
          (es->p->len <= tcp_sndbuf(tpcb)))
   {
-
     /* get pointer on pbuf from es structure */
     ptr = es->p;
 
@@ -326,8 +327,8 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
       char *pReceived = (char*)mem_malloc((size_t)(plen + 1));
       memcpy(pReceived, ptr->payload, plen);
       memset(pReceived + plen, 0, 1);
-#ifdef PRINT_RECEIVED
-      //printf("%s\n", pReceived);
+#ifdef SERVER_TCP_PRINTF_ENABLED
+      printf("%s\n", pReceived);
 #endif
 
       /* Binding with KeyBoard control */
@@ -371,7 +372,6 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
   */
 static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 {
-
   /* remove all callbacks */
   tcp_arg(tpcb, NULL);
   tcp_sent(tpcb, NULL);

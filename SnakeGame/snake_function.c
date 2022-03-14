@@ -410,7 +410,7 @@ void snake_place_food(snake_t* snake, food_t* food)
 }
 
 /**
-  * @brief  Function to implement snake grow if already eats a food
+  * @brief  Function to implement a snake grow if already eats a food
   *
   * @note   Function checks, whether snake's head really hits the food.
   *         If so, snake length is increased and the ghost tail becomes
@@ -487,7 +487,7 @@ void snake_inform(snake_t* snake, food_t* food)
 
 
 /**
-  * @brief  Function to do pseudo-blocking delay
+  * @brief  Function to do a pseudo-blocking delay
   *
   * @note  Function does blocking delay based on platform_msTickGet. However,
   *        during the "waiting loop" MCU periodically process passed function.

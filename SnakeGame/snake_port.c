@@ -39,7 +39,7 @@ static void platform_display_init(void)
 
 
 /**
-  * @brief  Function to set gKeyBoardButton
+  * @brief  Function to set the gKeyBoardButton
   *
   * @note This function must be called in controlling callback or ISR
   *       function, because it directly stores into gKeyBoardButton
@@ -180,7 +180,7 @@ void platform_eraseFood(uint16_t x, uint16_t y)
 /**
   * @brief  Initialize all needed peripherals for a snake game
   *
-  * @note   For a embedded implementation with a display randomizer,
+  * @note   For an embedded implementation with a display randomizer,
   *         control and display initialization is needed.
   *
   * @param None
@@ -195,9 +195,9 @@ void platform_init(void)
 
 
 /**
-  * @brief  Optional print for a information
+  * @brief  Optional print for an information
   *
-  * @note   For a embedded implementation with a display randomizer,
+  * @note   For an embedded implementation with a display randomizer,
   *         control and display initialization is needed.
   *
   * @param str - string to be printed on the display
@@ -351,7 +351,7 @@ void platform_display_border(void)
 
 
 /**
-  * @brief  Print text of size 18x7 into upper-center,
+  * @brief  Print text of size into upper-center,
   *
   * @note   Prints text with
   *
