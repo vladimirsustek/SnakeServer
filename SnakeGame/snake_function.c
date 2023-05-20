@@ -458,7 +458,6 @@ void snake_inform(snake_t* snake, food_t* food)
 	static uint16_t pauseStringAppeared = 0;
 	char printStr[20] = {0};
 
-
 	if(snake->direction == PAUSE && !pauseStringAppeared)
 	{
 		sprintf(printStr, " Paused:score:%05d", snake->length - SNAKE_INIT_LNG);

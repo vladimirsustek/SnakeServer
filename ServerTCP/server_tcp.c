@@ -22,7 +22,8 @@ static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_
   * @param  None
   * @retval None
   */
-void tcp_server_init(uint16_t port)
+
+uint32_t* tcp_server_init(uint16_t port)
 {
   /* create new tcp pcb */
   tcp_server_pcb = tcp_new();
@@ -59,6 +60,7 @@ void tcp_server_init(uint16_t port)
     printf("Can not create new pcb\n");
 #endif
   }
+  return (uint32_t*)tcp_server_pcb;
 }
 
 /**
@@ -305,6 +307,7 @@ static err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
   */
 static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 {
+
   struct pbuf *ptr;
   err_t wr_err = ERR_OK;
 
@@ -372,6 +375,7 @@ static void tcp_server_send(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
   */
 static void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_struct *es)
 {
+
   /* remove all callbacks */
   tcp_arg(tpcb, NULL);
   tcp_sent(tpcb, NULL);
