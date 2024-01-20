@@ -46,7 +46,7 @@
 
 /********************************************** NO CHNAGES AFTER THIS ************************************************/
 
-TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim2;
 
 void delay (uint32_t time)
 {

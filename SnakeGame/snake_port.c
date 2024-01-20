@@ -14,7 +14,7 @@
 #define SNAKE_SERVER_PORT	(uint16_t)(8000u)
 
 /* Platform dependent handles */
-ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc1;
 
 /* Randomizer seed */
 static uint16_t gRandSeed;
